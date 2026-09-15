@@ -15,6 +15,9 @@ rust-version = "1.98"
 [dependencies]
 base64 = "0.23.1"
 crossterm = { version = "0.29.0", default-features = false, features = ["bracketed-paste", "events", "use-dev-tty"] }
+dom_query = { version = "0.28.0", default-features = false }
+dom_smoothie = "0.18.0"
+flate2 = "1.1.10"
 image = { version = "0.25.10", default-features = false, features = ["gif", "jpeg", "png", "webp"] }
 lexopt = "0.3.2"
 percent-encoding = "2.3.2"

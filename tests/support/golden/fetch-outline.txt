@@ -1,0 +1,128 @@
+[id 1 · exit 0 · $TIME]
+[$SITE/long · Markdown · 243 lines · 12.5 KB · saved as $HOME/.agt/sessions/$SESSION/fetch/$PAGE.md]
+It is too long to show whole, so these are its headings with their line numbers, then its first lines. Read it in ranges with sed -n '<from>,<to>p' $HOME/.agt/sessions/$SESSION/fetch/$PAGE.md, or search it with rg -n.
+
+  1  # The guide
+  5  ## Part 1
+  9  ## Part 2
+ 13  ## Part 3
+ 17  ## Part 4
+ 21  ## Part 5
+ 25  ## Part 6
+ 29  ## Part 7
+ 33  ## Part 8
+ 37  ## Part 9
+ 41  ## Part 10
+ 45  ## Part 11
+ 49  ## Part 12
+ 53  ## Part 13
+ 57  ## Part 14
+ 61  ## Part 15
+ 65  ## Part 16
+ 69  ## Part 17
+ 73  ## Part 18
+ 77  ## Part 19
+ 81  ## Part 20
+ 85  ## Part 21
+ 89  ## Part 22
+ 93  ## Part 23
+ 97  ## Part 24
+101  ## Part 25
+105  ## Part 26
+109  ## Part 27
+113  ## Part 28
+117  ## Part 29
+121  ## Part 30
+125  ## Part 31
+129  ## Part 32
+133  ## Part 33
+137  ## Part 34
+141  ## Part 35
+145  ## Part 36
+149  ## Part 37
+153  ## Part 38
+157  ## Part 39
+161  ## Part 40
+165  ## Part 41
+169  ## Part 42
+173  ## Part 43
+177  ## Part 44
+181  ## Part 45
+185  ## Part 46
+189  ## Part 47
+193  ## Part 48
+197  ## Part 49
+201  ## Part 50
+205  ## Part 51
+209  ## Part 52
+213  ## Part 53
+217  ## Part 54
+221  ## Part 55
+225  ## Part 56
+229  ## Part 57
+233  ## Part 58
+237  ## Part 59
+241  ## Part 60
+
+Lines 1-62 of 243:
+# The guide
+
+It is long.
+
+## Part 1
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 2
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 3
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 4
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 5
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 6
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 7
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 8
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 9
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 10
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 11
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 12
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 13
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 14
+
+word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+
+## Part 15

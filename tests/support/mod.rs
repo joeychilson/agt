@@ -1,5 +1,8 @@
 //! A scripted Responses API server and helpers for end-to-end tests.
 
+// Every test binary compiles this module and uses the part of it it needs.
+#![allow(dead_code)]
+
 use std::collections::BTreeMap;
 use std::fs;
 use std::io::{BufRead, BufReader, Read, Write};
@@ -173,6 +176,66 @@ impl Server {
     /// The model requests received so far as pretty-printed JSON, for a golden.
     pub fn exchanges(&self) -> String {
         serde_json::to_string_pretty(&self.requests()).expect("JSON")
+    }
+}
+
+/// A page's status, headers and body, as a site answers a request.
+pub type Answer = (u16, Vec<(String, String)>, Vec<u8>);
+
+/// The paths a site was asked for, each with the request's headers.
+pub type Asked = Vec<(String, BTreeMap<String, String>)>;
+
+/// A site for `agt fetch` tests. It answers every request with what `answer`
+/// gives for the path and headers, and records what it was asked.
+pub struct Site {
+    pub url: String,
+    asked: Arc<Mutex<Asked>>,
+}
+
+impl Site {
+    pub fn start(
+        answer: impl Fn(&str, &BTreeMap<String, String>) -> Answer + Send + 'static,
+    ) -> Self {
+        let listener = TcpListener::bind("127.0.0.1:0").expect("bind a local port");
+        let url = format!("http://{}", listener.local_addr().expect("local address"));
+        let asked = Arc::new(Mutex::new(Vec::new()));
+        let seen = Arc::clone(&asked);
+        thread::spawn(move || {
+            for stream in listener.incoming() {
+                let Ok(mut stream) = stream else { continue };
+                let mut reader = BufReader::new(stream.try_clone().expect("clone stream"));
+                let mut request = String::new();
+                if reader.read_line(&mut request).unwrap_or(0) == 0 {
+                    continue;
+                }
+                let mut headers = BTreeMap::new();
+                loop {
+                    let mut line = String::new();
+                    if reader.read_line(&mut line).unwrap_or(0) == 0 || line.trim().is_empty() {
+                        break;
+                    }
+                    if let Some((name, value)) = line.split_once(':') {
+                        headers.insert(name.trim().to_ascii_lowercase(), value.trim().to_owned());
+                    }
+                }
+                let path = request.split(' ').nth(1).unwrap_or("/").to_owned();
+                let (status, mut sent, body) = answer(&path, &headers);
+                seen.lock().expect("asked lock").push((path, headers));
+                sent.push(("content-length".to_owned(), body.len().to_string()));
+                sent.push(("connection".to_owned(), "close".to_owned()));
+                let head: String =
+                    sent.iter().map(|(name, value)| format!("{name}: {value}\r\n")).collect();
+                let response = format!("HTTP/1.1 {status} Status\r\n{head}\r\n");
+                let _ = stream.write_all(response.as_bytes());
+                let _ = stream.write_all(&body);
+            }
+        });
+        Self { url, asked }
+    }
+
+    /// The paths asked for so far, each with the request's headers.
+    pub fn asked(&self) -> Asked {
+        self.asked.lock().expect("asked lock").clone()
     }
 }
 

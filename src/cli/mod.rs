@@ -7,6 +7,7 @@
 //! commands print is plain text that reads the same in a terminal and in the
 //! output of an agent's command.
 
+mod fetch;
 mod login;
 mod mcp;
 mod models;
@@ -131,7 +132,7 @@ struct Command {
 }
 
 /// The commands, in the order agt's help lists them.
-const COMMANDS: [Command; 8] = [
+const COMMANDS: [Command; 9] = [
     Command {
         name: "sessions",
         about: "list sessions, print their transcripts and follow running ones",
@@ -155,6 +156,12 @@ const COMMANDS: [Command; 8] = [
         about: "set up MCP servers and call their tools",
         help: mcp::HELP,
         run: mcp::run,
+    },
+    Command {
+        name: "fetch",
+        about: "read a web page as Markdown",
+        help: fetch::HELP,
+        run: fetch::run,
     },
     Command {
         name: "view",

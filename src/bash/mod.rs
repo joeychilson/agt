@@ -27,10 +27,11 @@ use serde::{Deserialize, Serialize};
 
 use crate::item::Content;
 use log::Log;
+pub(crate) use log::bytes;
 pub(crate) use tool::{Action, CANCELLED, Header, Outcome, Tool, ToolCall, definition, elapsed};
 
 /// The variable that gives commands their session's directory, where
-/// `agt view` saves the images it shows.
+/// `agt view` saves the images it shows and `agt fetch` the pages it reads.
 pub(crate) const SESSION_DIR: &str = "AGT_SESSION_DIR";
 /// Silence after new output that ends an input or read call.
 const QUIET: Duration = Duration::from_millis(500);

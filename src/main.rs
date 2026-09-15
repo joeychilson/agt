@@ -1,10 +1,10 @@
 //! agt: a coding agent whose one tool is bash, a real terminal.
 //!
 //! It speaks the Responses API to five providers, runs every command in a
-//! pseudo-terminal of its own, sees images and calls MCP servers through
-//! commands of its own, compacts context for sessions that last weeks, reads
-//! AGENTS.md and Agent Skills, and serves a terminal UI, print mode and the
-//! Agent Client Protocol over one agent.
+//! pseudo-terminal of its own, reads web pages, sees images and calls MCP
+//! servers through commands of its own, compacts context for sessions that last
+//! weeks, reads AGENTS.md and Agent Skills, and serves a terminal UI, print mode
+//! and the Agent Client Protocol over one agent.
 
 mod acp;
 mod agent;
@@ -13,6 +13,7 @@ mod bash;
 mod cli;
 mod config;
 mod control;
+mod fetch;
 mod image;
 mod item;
 mod llm;

@@ -363,7 +363,7 @@ impl vte::Perform for Text {
 }
 
 /// A byte count in a few characters: `512 B`, `2.0 KB`, `3.1 MB`.
-fn bytes(count: u64) -> String {
+pub(crate) fn bytes(count: u64) -> String {
     match count {
         0..1024 => format!("{count} B"),
         1024..1_048_576 => format!("{:.1} KB", count as f64 / 1024.0),
