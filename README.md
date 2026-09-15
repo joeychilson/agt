@@ -11,6 +11,7 @@ A coding agent for your terminal. Its one tool is a real terminal.
 
 - **A real terminal.** Every command runs in its own pty: dev servers, REPLs, ssh and full-screen programs all work.
 - **Background work.** Commands keep running past their wait. The agent is told when they exit, or waits for them.
+- **Reads the web.** `agt fetch <url>` reads a page as Markdown, from a site's own Markdown, llms.txt, raw file or API where there is one.
 - **Sees images.** `agt view shot.png` shows the agent a screenshot, or a region of it at full resolution.
 - **MCP without the context cost.** Servers are listed by name, and the agent calls their tools with `agt mcp`.
 - **Runs for weeks.** Native compaction where the provider has it, summaries elsewhere. Every log stays on disk.

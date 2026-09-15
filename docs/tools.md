@@ -1,12 +1,13 @@
 # Tools
 
-The model has one tool, `bash`. Two commands of agt's own run through it: `agt
-view` shows the model images, and `agt mcp` calls the tools of MCP servers. No
-other tool is declared, so a request is the same size however many images,
-servers and tools a session uses.
+The model has one tool, `bash`. Three commands of agt's own run through it:
+`agt fetch` reads a web page as Markdown, `agt view` shows the model images, and
+`agt mcp` calls the tools of MCP servers. No other tool is declared, so a
+request is the same size however many pages, images, servers and tools a session
+uses.
 
-The tool lives in `src/bash/`, images in `src/image.rs`, and MCP servers in
-`src/mcp.rs` and `src/mcp/`.
+The tool lives in `src/bash/`, web pages in `src/fetch.rs` and `src/fetch/`,
+images in `src/image.rs`, and MCP servers in `src/mcp.rs` and `src/mcp/`.
 
 ## The bash tool
 
@@ -160,6 +161,64 @@ An image is prepared in these steps:
   despite these checks is sent no more images in the session: a notice says so,
   images in history become notes, and the request is sent again. Switching
   models or resuming tries images again.
+
+## Web pages
+
+`agt fetch <url>` reads a page as Markdown. A page is read from the best source
+it has, and a source that fails gives way to the page itself, so a rule that
+does not fit a page costs one request and nothing more.
+
+| Source                | Where it comes from                                                                          |
+| --------------------- | ---------------------------------------------------------------------------------------------- |
+| The site's Markdown   | Every request asks for `text/markdown` first, which many documentation sites answer with     |
+| `llms.txt`            | The root page of a site that has one                                                         |
+| The Markdown version  | HTML with `<link rel="alternate" type="text/markdown">`, or a link to the page's own llms.txt |
+| A first-party source  | The kinds of pages `src/fetch/sites.rs` knows                                                |
+| The page              | Everything else, whose main content becomes Markdown                                         |
+
+The kinds of pages read from a source of their own: a code host's view of a file
+from the raw file, on GitHub, GitLab, Codeberg and Hugging Face; a GitHub
+repository, directory, issue or pull request from GitHub's API, with the token
+`GH_TOKEN` or `GITHUB_TOKEN` holds, since GitHub allows 60 requests an hour
+without one; an arXiv abstract or PDF from the paper's HTML; a DOI from the
+publisher's page, asked for as HTML because doi.org answers a request for
+Markdown with a citation; an npm, PyPI or crates.io page from the registry's
+metadata and README; and a Stack Exchange question from the API, with its
+answers.
+
+### What the model sees
+
+In a session the page is saved in `fetch/` in the session directory and printed
+after a header saying where it came from and where it is saved:
+
+```
+[https://bun.com/docs · its Markdown version https://bun.com/docs.md · 131 lines · 6.0 KB · saved as ~/.agt/sessions/<id>/fetch/bun.com-docs-4ba1f20c.md]
+```
+
+A page longer than a result shows keeps its header, then its headings with their
+line numbers and its first lines, so the model reads the rest of the file in
+ranges or searches it. Piped, and outside a session, the Markdown is printed
+alone. A response that is not text, such as a PDF or an image, is not read: the
+error names its type and size and says to download it with `curl`. A page that
+shows its content with JavaScript has no text to read, and says so.
+
+### HTML as Markdown
+
+The main content is what readability finds, or else the largest `main`,
+`article` or `[role=main]`, with navigation, sidebars and other chrome removed.
+It is written for a reader:
+
+- **One block to a line, and no wrapping**, so a line number or a search finds
+  it, under the page's title, taken from its `h1` when the `<title>` holds that
+  and otherwise from the `<title>` without the site's name.
+- **Links absolute**, with permalinks, links without text and images without
+  descriptions left out; an image inside a link reads as its description.
+- **Code fenced** with the language its classes name, keeping its lines when a
+  highlighter puts each in an element of its own, and dropping line numbers.
+- **Tables as tables**, unless a table lays out a page, whose cells are then
+  read as the blocks they hold.
+- **Nothing a terminal acts on**: control characters are dropped, and the
+  characters that would begin a block the HTML does not have are escaped.
 
 ## MCP servers
 

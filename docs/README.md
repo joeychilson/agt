@@ -1,9 +1,9 @@
 # How agt works
 
 agt is a coding agent for the terminal whose one tool is a real terminal. The
-model runs commands in pseudo-terminals and reads what they print, and it sees
-images with `agt view` and calls MCP servers' tools with `agt mcp`, both
-commands it runs through that tool.
+model runs commands in pseudo-terminals and reads what they print, and it reads
+web pages with `agt fetch`, sees images with `agt view` and calls MCP servers'
+tools with `agt mcp`, all commands it runs through that tool.
 
 One agent core serves three frontends, the terminal UI, print mode and the
 Agent Client Protocol, over the Responses API of five providers. Everything a
@@ -15,7 +15,7 @@ session does is written to plain files in its directory as it happens.
 | ------------------------------- | -------------------------------------------------------------------------------------- |
 | [Architecture](architecture.md) | The event loop, turns, context and compaction, what is stored, and measured numbers    |
 | [Providers](providers.md)       | What each provider is sent, how it signs in, compacts and lists models, and adding one |
-| [Tools](tools.md)               | The bash tool, images through `agt view`, and MCP servers through `agt mcp`            |
+| [Tools](tools.md)               | The bash tool, web pages through `agt fetch`, images through `agt view`, and MCP servers through `agt mcp` |
 | [Interfaces](interfaces.md)     | The commands, print mode's output, the session log, the control socket, and ACP        |
 | [Terminal UI](terminal-ui.md)   | How the UI draws, and its transcript, input and menus                                  |
 
@@ -46,9 +46,9 @@ another process, and resumed after a crash.
 ## Principles
 
 1. **One tool, a real terminal.** Dev servers, REPLs, ssh and full-screen
-   programs work because every command gets a pseudo-terminal. Images and MCP
-   tools are commands too, so the tool list never grows and a request is the
-   same size however many servers a session has.
+   programs work because every command gets a pseudo-terminal. Web pages,
+   images and MCP tools are commands too, so the tool list never grows and a
+   request is the same size however many servers a session has.
 2. **The event loop never blocks.** Requests and processes run on threads that
    report as events, and every wait is a deadline. An idle agent wakes for
    nothing.

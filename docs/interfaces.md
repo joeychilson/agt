@@ -39,6 +39,7 @@ control socket in `src/control.rs`, and ACP in `src/acp.rs`.
 | `agt models [<text>]`                                    | Lists the models you can use                                              |
 | `agt models use <model> [--provider <id>] [-e <effort>]` | Saves the model, and its effort, for every frontend                       |
 | `agt mcp list`, `tools`, `call`, `add`, `remove`         | Sets up MCP servers and calls their tools                                 |
+| `agt fetch <url>`                                        | Reads a web page as Markdown                                              |
 | `agt view [--region <l,t,r,b>] <image>...`               | Shows images to the session running the command                           |
 | `agt login [<provider>] [--key -]`                       | Signs in, in menus or the browser, or saves a key read from stdin         |
 | `agt logout <provider>`                                  | Forgets a provider's saved sign-in or key                                 |
@@ -115,6 +116,7 @@ Each session is a directory of plain files, `~/.agt/sessions/<id>/`:
 | `log.jsonl`      | The session log: every item, process, notice, turn and compaction     |
 | `procs/<id>.log` | Each process's output as a terminal shows it, as plain text           |
 | `images/`        | The images the model saw, by content hash and size                    |
+| `fetch/`         | The pages `agt fetch` read, as Markdown                               |
 | `notes.md`       | The agent's plan on long tasks, which compaction carries forward      |
 | `mcp/<name>.log` | Each stdio MCP server's standard error                                |
 | `bin/agt`        | A link to the running agt, when the `agt` on `PATH` is another binary |

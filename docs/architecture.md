@@ -262,6 +262,7 @@ From the frontends inward:
 | `item.rs`        | Responses API items, and the content agt shows the model                           |
 | `bash/`          | The bash tool: its definition, processes, pseudo-terminals and logs                |
 | `image.rs`       | Preparing, saving, marking and sending images                                      |
+| `fetch.rs`, `fetch/` | Web pages as Markdown: addresses, requests, known sources, and HTML            |
 | `mcp.rs`, `mcp/` | MCP settings, each session's pool, and connections in both eras                    |
 | `control.rs`     | Each session's control socket                                                      |
 | `store.rs`       | Session logs, their records, and resuming from them                                |
@@ -282,7 +283,7 @@ scripted server that answers at once, so the times are agt's own:
 | A print-mode turn that runs one command | ~9 ms              | 4.3 MB         |
 | List 20 sessions (`agt sessions`)       | ~5 ms              | 2.8 MB         |
 | Terminal UI at rest for 10 s            | under 10 ms of CPU | 2.8 MB         |
-| Release binary                          | —                  | 3.9 MB on disk |
+| Release binary                          | —                  | 4.9 MB on disk |
 
 Times are medians of 20 to 30 runs at a load average of two to four, and a
 quieter machine is faster. Memory is the peak resident size, and for the

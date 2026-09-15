@@ -3,8 +3,8 @@
 ## Mission
 
 agt is a minimal terminal coding agent with one tool, `bash`, a real terminal,
-where `agt view` shows the model images and `agt mcp` calls the tools of MCP
-servers. It must be fast, memory-efficient and reliable over sessions that
+where `agt fetch` reads web pages, `agt view` shows the model images and `agt
+mcp` calls the tools of MCP servers. It must be fast, memory-efficient and reliable over sessions that
 last weeks. Implement each feature completely and correctly, and add nothing
 speculative: every line, dependency and option needs a present use.
 [docs/](docs/README.md) describes the design and the invariants below.
@@ -36,6 +36,9 @@ speculative: every line, dependency and option needs a present use.
   the text logs of their output (`log.rs`).
 - `src/image.rs`: the images the model sees: preparing, saving, marking and
   sending them.
+- `src/fetch.rs` and `src/fetch/`: web pages as Markdown: addresses (`url.rs`),
+  requests (`http.rs`), the sources known for kinds of pages (`sites.rs`), what
+  a page's HTML holds (`html.rs`) and how it is written (`markdown.rs`).
 - `src/control.rs`: each session's control socket, through which `agt send`
   and `agt mcp` reach a running session.
 - `src/mcp.rs` and `src/mcp/`: MCP servers: their settings, each session's pool
@@ -128,7 +131,7 @@ memory with any performance claim.
 - Types: `feat`, `fix`, `perf`, `refactor`, `docs`, `test`, `build`, `ci`,
   `style` and `chore`, chosen by the change's primary purpose.
 - Scopes name areas: `agent`, `llm`, `auth`, `models`, `config`, `bash`,
-  `image`, `control`, `mcp`, `compact`, `store`, `prompt`, `tui`, `acp`, `cli`,
+  `image`, `fetch`, `control`, `mcp`, `compact`, `store`, `prompt`, `tui`, `acp`, `cli`,
   `repo` or `deps`.
 - Keep the subject at most 72 characters, starting with a lowercase imperative
   verb and without a final period.
