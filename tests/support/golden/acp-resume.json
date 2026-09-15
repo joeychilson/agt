@@ -1,0 +1,183 @@
+[
+  {
+    "id": 0,
+    "jsonrpc": "2.0",
+    "method": "initialize",
+    "params": {
+      "protocolVersion": 1
+    }
+  },
+  {
+    "id": 0,
+    "jsonrpc": "2.0",
+    "result": {
+      "agentCapabilities": {
+        "loadSession": true,
+        "mcpCapabilities": {
+          "http": true,
+          "sse": false
+        },
+        "promptCapabilities": {
+          "audio": false,
+          "embeddedContext": true,
+          "image": true
+        },
+        "sessionCapabilities": {
+          "close": {},
+          "delete": {},
+          "list": {},
+          "resume": {}
+        }
+      },
+      "agentInfo": {
+        "name": "agt",
+        "title": "agt",
+        "version": "0.1.0"
+      },
+      "authMethods": [],
+      "protocolVersion": 1
+    }
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "session/resume",
+    "params": {
+      "cwd": "$HOME",
+      "mcpServers": [],
+      "sessionId": "$SESSION"
+    }
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+      "configOptions": [
+        {
+          "category": "model",
+          "currentValue": "test-model",
+          "id": "model",
+          "name": "Model",
+          "options": [
+            {
+              "name": "test-model",
+              "value": "test-model"
+            }
+          ],
+          "type": "select"
+        },
+        {
+          "category": "thought_level",
+          "currentValue": "default",
+          "id": "reasoning",
+          "name": "Reasoning effort",
+          "options": [
+            {
+              "name": "default",
+              "value": "default"
+            },
+            {
+              "name": "none",
+              "value": "none"
+            },
+            {
+              "name": "minimal",
+              "value": "minimal"
+            },
+            {
+              "name": "low",
+              "value": "low"
+            },
+            {
+              "name": "medium",
+              "value": "medium"
+            },
+            {
+              "name": "high",
+              "value": "high"
+            },
+            {
+              "name": "xhigh",
+              "value": "xhigh"
+            },
+            {
+              "name": "max",
+              "value": "max"
+            }
+          ],
+          "type": "select"
+        }
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "jsonrpc": "2.0",
+    "method": "session/delete",
+    "params": {
+      "sessionId": "$SESSION"
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "method": "session/update",
+    "params": {
+      "sessionId": "$SESSION",
+      "update": {
+        "availableCommands": [
+          {
+            "description": "Summarize the conversation to free context",
+            "input": {
+              "hint": "optional focus for the summary"
+            },
+            "name": "compact"
+          }
+        ],
+        "sessionUpdate": "available_commands_update"
+      }
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "method": "session/update",
+    "params": {
+      "sessionId": "$SESSION",
+      "update": {
+        "sessionUpdate": "usage_update",
+        "size": 200000,
+        "used": $USED
+      }
+    }
+  },
+  {
+    "id": 2,
+    "jsonrpc": "2.0",
+    "result": {}
+  },
+  {
+    "id": 3,
+    "jsonrpc": "2.0",
+    "method": "session/list",
+    "params": {}
+  },
+  {
+    "id": 3,
+    "jsonrpc": "2.0",
+    "result": {
+      "sessions": []
+    }
+  },
+  {
+    "id": 4,
+    "jsonrpc": "2.0",
+    "method": "session/delete",
+    "params": {
+      "sessionId": "$SESSION"
+    }
+  },
+  {
+    "id": 4,
+    "jsonrpc": "2.0",
+    "result": {}
+  }
+]

@@ -1,0 +1,156 @@
+[
+  {
+    "id": 0,
+    "jsonrpc": "2.0",
+    "method": "initialize",
+    "params": {
+      "protocolVersion": 1
+    }
+  },
+  {
+    "id": 0,
+    "jsonrpc": "2.0",
+    "result": {
+      "agentCapabilities": {
+        "loadSession": true,
+        "mcpCapabilities": {
+          "http": true,
+          "sse": false
+        },
+        "promptCapabilities": {
+          "audio": false,
+          "embeddedContext": true,
+          "image": true
+        },
+        "sessionCapabilities": {
+          "close": {},
+          "delete": {},
+          "list": {},
+          "resume": {}
+        }
+      },
+      "agentInfo": {
+        "name": "agt",
+        "title": "agt",
+        "version": "0.1.0"
+      },
+      "authMethods": [],
+      "protocolVersion": 1
+    }
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "session/load",
+    "params": {
+      "cwd": "$HOME",
+      "mcpServers": [],
+      "sessionId": "$SESSION"
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "method": "session/update",
+    "params": {
+      "sessionId": "$SESSION",
+      "update": {
+        "content": {
+          "text": "what is this?",
+          "type": "text"
+        },
+        "sessionUpdate": "user_message_chunk"
+      }
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "method": "session/update",
+    "params": {
+      "sessionId": "$SESSION",
+      "update": {
+        "content": {
+          "data": "iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAIAAAAt/+nTAAAApElEQVR4Ae3AA6AkWZbG8f937o3IzKdyS2Oubdu2bdu2bdu2bWmMnpZKr54yMyLu+Xa3anqmhztr1S/4343gfzeC/90I/ncj+N+N4H83gv/dCP53I/jfjeB/N4L/3Qj+dyP4343gfzeC/90I/ncj+N+N4H83gv/dCP53I/jfjeB/N4L/3Qj+dyP4343gfzeC/90I/ncj+N+N4H83gv/dCP534x8BNG0AQZ+FPpoAAAAASUVORK5CYII=",
+          "mimeType": "image/png",
+          "type": "image"
+        },
+        "sessionUpdate": "user_message_chunk"
+      }
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "method": "session/update",
+    "params": {
+      "sessionId": "$SESSION",
+      "update": {
+        "content": {
+          "text": "a small image",
+          "type": "text"
+        },
+        "sessionUpdate": "agent_message_chunk"
+      }
+    }
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+      "configOptions": [
+        {
+          "category": "model",
+          "currentValue": "test-model",
+          "id": "model",
+          "name": "Model",
+          "options": [
+            {
+              "name": "test-model",
+              "value": "test-model"
+            }
+          ],
+          "type": "select"
+        },
+        {
+          "category": "thought_level",
+          "currentValue": "default",
+          "id": "reasoning",
+          "name": "Reasoning effort",
+          "options": [
+            {
+              "name": "default",
+              "value": "default"
+            },
+            {
+              "name": "none",
+              "value": "none"
+            },
+            {
+              "name": "minimal",
+              "value": "minimal"
+            },
+            {
+              "name": "low",
+              "value": "low"
+            },
+            {
+              "name": "medium",
+              "value": "medium"
+            },
+            {
+              "name": "high",
+              "value": "high"
+            },
+            {
+              "name": "xhigh",
+              "value": "xhigh"
+            },
+            {
+              "name": "max",
+              "value": "max"
+            }
+          ],
+          "type": "select"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,258 @@
+[
+  {
+    "id": 0,
+    "jsonrpc": "2.0",
+    "method": "initialize",
+    "params": {
+      "protocolVersion": 1
+    }
+  },
+  {
+    "id": 0,
+    "jsonrpc": "2.0",
+    "result": {
+      "agentCapabilities": {
+        "loadSession": true,
+        "mcpCapabilities": {
+          "http": true,
+          "sse": false
+        },
+        "promptCapabilities": {
+          "audio": false,
+          "embeddedContext": true,
+          "image": true
+        },
+        "sessionCapabilities": {
+          "close": {},
+          "delete": {},
+          "list": {},
+          "resume": {}
+        }
+      },
+      "agentInfo": {
+        "name": "agt",
+        "title": "agt",
+        "version": "0.1.0"
+      },
+      "authMethods": [],
+      "protocolVersion": 1
+    }
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "session/load",
+    "params": {
+      "cwd": "$HOME",
+      "mcpServers": [],
+      "sessionId": "$SESSION"
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "method": "session/update",
+    "params": {
+      "sessionId": "$SESSION",
+      "update": {
+        "content": {
+          "text": "run it",
+          "type": "text"
+        },
+        "sessionUpdate": "user_message_chunk"
+      }
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "method": "session/update",
+    "params": {
+      "sessionId": "$SESSION",
+      "update": {
+        "kind": "execute",
+        "rawInput": {
+          "command": "echo acp-tool"
+        },
+        "sessionUpdate": "tool_call",
+        "status": "in_progress",
+        "title": "echo acp-tool",
+        "toolCallId": "call_1"
+      }
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "method": "session/update",
+    "params": {
+      "sessionId": "$SESSION",
+      "update": {
+        "content": [
+          {
+            "content": {
+              "text": "[id 1 · exit 0 · $TIME]\nacp-tool",
+              "type": "text"
+            },
+            "type": "content"
+          }
+        ],
+        "sessionUpdate": "tool_call_update",
+        "status": "completed",
+        "toolCallId": "call_1"
+      }
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "method": "session/update",
+    "params": {
+      "sessionId": "$SESSION",
+      "update": {
+        "content": {
+          "text": "hello from agt",
+          "type": "text"
+        },
+        "sessionUpdate": "agent_message_chunk"
+      }
+    }
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+      "configOptions": [
+        {
+          "category": "model",
+          "currentValue": "test-model",
+          "id": "model",
+          "name": "Model",
+          "options": [
+            {
+              "name": "test-model",
+              "value": "test-model"
+            }
+          ],
+          "type": "select"
+        },
+        {
+          "category": "thought_level",
+          "currentValue": "default",
+          "id": "reasoning",
+          "name": "Reasoning effort",
+          "options": [
+            {
+              "name": "default",
+              "value": "default"
+            },
+            {
+              "name": "none",
+              "value": "none"
+            },
+            {
+              "name": "minimal",
+              "value": "minimal"
+            },
+            {
+              "name": "low",
+              "value": "low"
+            },
+            {
+              "name": "medium",
+              "value": "medium"
+            },
+            {
+              "name": "high",
+              "value": "high"
+            },
+            {
+              "name": "xhigh",
+              "value": "xhigh"
+            },
+            {
+              "name": "max",
+              "value": "max"
+            }
+          ],
+          "type": "select"
+        }
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "jsonrpc": "2.0",
+    "method": "session/list",
+    "params": {}
+  },
+  {
+    "jsonrpc": "2.0",
+    "method": "session/update",
+    "params": {
+      "sessionId": "$SESSION",
+      "update": {
+        "availableCommands": [
+          {
+            "description": "Summarize the conversation to free context",
+            "input": {
+              "hint": "optional focus for the summary"
+            },
+            "name": "compact"
+          }
+        ],
+        "sessionUpdate": "available_commands_update"
+      }
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "method": "session/update",
+    "params": {
+      "sessionId": "$SESSION",
+      "update": {
+        "sessionUpdate": "session_info_update",
+        "title": "run it"
+      }
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "method": "session/update",
+    "params": {
+      "sessionId": "$SESSION",
+      "update": {
+        "sessionUpdate": "usage_update",
+        "size": 200000,
+        "used": $USED
+      }
+    }
+  },
+  {
+    "id": 2,
+    "jsonrpc": "2.0",
+    "result": {
+      "sessions": [
+        {
+          "cwd": "$HOME",
+          "sessionId": "$SESSION",
+          "title": "run it"
+        }
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "jsonrpc": "2.0",
+    "method": "session/load",
+    "params": {
+      "cwd": "$HOME",
+      "mcpServers": [],
+      "sessionId": "123-abc"
+    }
+  },
+  {
+    "error": {
+      "code": -32002,
+      "message": "cannot load session: No such file or directory (os error 2)"
+    },
+    "id": 3,
+    "jsonrpc": "2.0"
+  }
+]

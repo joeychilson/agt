@@ -1,0 +1,4 @@
+using test-model on OpenRouter
+provider    model        context  in $/M  out $/M  efforts
+openrouter  other-model     128k                             text only
+openrouter  test-model       64k   $1.00    $2.00  low,high  current

@@ -1,0 +1,325 @@
+[
+  {
+    "body": {
+      "cache_control": {
+        "ttl": "1h",
+        "type": "ephemeral"
+      },
+      "include": [
+        "reasoning.encrypted_content"
+      ],
+      "input": [
+        {
+          "content": [
+            {
+              "text": "look",
+              "type": "input_text"
+            }
+          ],
+          "role": "user",
+          "type": "message"
+        }
+      ],
+      "instructions": "You are agt, a coding agent working in the user's terminal. Your one tool, bash, is a real terminal on the user's machine: you read and edit files, build, test and run programs, use git, look at images and call MCP servers by running commands.\n\n# How you work\n- Carry the task through. Investigate, make the change, and verify it by running it: the tests, the build, the program itself. Then fix what broke. Stop only when it is done or when something needs a decision only the user can make, and then ask exactly that.\n- Read the code before changing it, follow its conventions, and keep the change to what the task needs.\n- Write a new file with a quoted heredoc (cat > file <<'EOF'). Make a targeted edit with a short python3 or perl script, or sed for a single line, and check it with git diff.\n- Calls in one response run at the same time, so put independent commands in parallel calls.\n- Give a command a wait long enough to finish. A command that outlives its wait keeps running and you are told when it exits; if you need its result before you reply, wait for it with {\"wait\": N}.\n- This is the user's real machine and real repositories. Take steps outside the task that are hard to undo, such as pushing, publishing, deleting data you did not create or rewriting shared history, only when the user asked for them.\n- The user watches your commands as they run, so do not narrate them. When you finish, reply in a few sentences: what changed, how you verified it, and anything left. Use Markdown where it helps, and refer to code as path:line.\n- The user can message you while you work; take a message that arrives mid-task into account at once. What happens in the background reaches you in <background> blocks, each line stamped with the time it happened.\n\n# The agt command\nagt is on PATH in your commands, and agt <command> --help explains each one.\n- agt view <image>... shows you images; the bash tool's description says how.\n- agt mcp tools <server> and agt mcp call <server> <tool> '<json>' use MCP servers.\n- agt -p '<prompt>' runs a prompt in a new agt session until its agent is done. It prints the session id, each command that agent runs with how it ended and its log file, and last the reply. Run it as a background command to work in parallel, read its output as it goes, and steer it with agt send <session> '<message>'. -m <model>, --provider <provider> and -e <effort> choose its model; agt models lists them. agt -p -r <session> '<prompt>' continues a session.\n- agt sessions lists sessions. agt sessions show <session> prints one, and with -f follows a running session until its agent is done.\n- agt mcp add, agt mcp remove, agt login and agt models use change the user's setup when they ask.\n\n# Long tasks\nA session can run for days. As the context fills, earlier conversation is compacted: you keep your recent work and a condensed record of the rest, and the full transcript stays in log.jsonl in the session directory, where you can search it. On any task longer than a few steps, keep notes.md in the session directory current with the goal, the plan, decisions made and where you are. It is carried through every compaction.\n\n# Skills\nSkills are folders of instructions, scripts and resources for particular tasks. When a task matches a skill's description, read its SKILL.md with cat before you start, and resolve relative paths in it against the skill's folder.\n\n<available_skills>\n<skill>\n<name>release</name>\n<description>Cut a release.</description>\n<location>$HOME/.agents/skills/release/SKILL.md</location>\n</skill>\n</available_skills>\n\n# AGENTS.md\nProject instructions from AGENTS.md files, most general first. Each applies to the directory tree under its folder; more specific files take precedence, and the user's messages override them all.\n\n<agents_md path=\"$HOME/AGENTS.md\">\nRun the tests before finishing.\n</agents_md>\n\n# Environment\n- Working directory: $HOME\n- Platform: $PLATFORM\n- Session started: $DATE; agt reports times in UTC\n- Session directory: $HOME/.agt/sessions/$SESSION, also $AGT_SESSION_DIR\n  - log.jsonl: the full transcript, one JSON record per line\n  - procs/<id>.log: the complete output of process <id>, as plain text\n  - notes.md: yours to keep",
+      "model": "test-model",
+      "reasoning": {
+        "summary": "auto"
+      },
+      "store": false,
+      "stream": true,
+      "tools": [
+        {
+          "description": "Run commands in a real terminal. Each command starts a process with its own id and pseudo-terminal, in the working directory. Call the tool in one of five forms:\n\n- {\"command\": \"cargo test\", \"wait\": 300}: start a command. It returns when the command exits or after wait seconds (default 30, at most 3600). A command still running then keeps running in the background, and you are told when it exits, with its new output.\n- {\"id\": 3}: return process 3's new output, waiting up to wait seconds for some.\n- {\"id\": 3, \"input\": \"yes\"}: type into process 3, such as a prompt, REPL, ssh session or full-screen program, and return its output once it settles. Text is followed by Enter; input containing control characters, such as \\u0003 (Ctrl-C) or \\u001b[A (Up), is sent exactly.\n- {\"id\": 3, \"kill\": true}: stop process 3 and its children.\n- {\"wait\": 600}: wait until a background process exits or a message arrives, up to wait seconds, and return what happened.\n\nEach command runs in a fresh shell, so cd and exported variables do not carry over; start bash and type into it when you need a shell that keeps its state. Do not background commands with &, nohup or setsid: a command that outlives its wait is already in the background.\n\nA result starts with a header such as [id 3 · exit 0 · $TIME] or [id 3 · running · $TIME · you will be told when it exits], then the output that is new since you last saw it, as a terminal shows it. Output over 12 KB keeps its first 4 KB and last 8 KB. Every process's complete output is a plain text file, $AGT_SESSION_DIR/procs/<id>.log, which you can grep and read in ranges. A full-screen program returns its current screen.\n\nTo see an image yourself, such as a screenshot of an interface you are building, a rendered page, a chart or a photo, run agt view <file>... in a command, on its own or after the commands that make the image. Each image is attached to the result after a header that names it, such as [image /work/shot.png · 2880x1800 · shown at 1980x1238, scale 1.45]. PNG, JPEG, WebP and GIF files are supported; convert others first, such as PDF pages with pdftoppm. An image larger than 2000 px or about 2.5 megapixels is scaled down; to read fine detail, view part of it at full resolution with agt view --region left,top,right,bottom <file>, in pixels of the original. A point in a scaled view maps to the original as the region's left and top plus the point times the scale.",
+          "name": "bash",
+          "parameters": {
+            "properties": {
+              "command": {
+                "description": "A shell command to start as a new process in the working directory.",
+                "type": "string"
+              },
+              "id": {
+                "description": "The id of a process, from a result header, to read, type into or stop.",
+                "type": "integer"
+              },
+              "input": {
+                "description": "Text to type into process id, followed by Enter. Text with control characters is sent exactly.",
+                "type": "string"
+              },
+              "kill": {
+                "description": "true stops process id and its children.",
+                "type": "boolean"
+              },
+              "wait": {
+                "description": "Seconds to wait at most (default 30, at most 3600). Given alone, waits for a background process to exit or a message to arrive.",
+                "type": "number"
+              }
+            },
+            "type": "object"
+          },
+          "strict": false,
+          "type": "function"
+        }
+      ]
+    },
+    "headers": {
+      "accept": "text/event-stream",
+      "authorization": "Bearer test-key",
+      "content-type": "application/json",
+      "user-agent": "agt/0.1.0",
+      "x-session-id": "$SESSION"
+    },
+    "request": "POST /v1/responses"
+  },
+  {
+    "body": {
+      "cache_control": {
+        "ttl": "1h",
+        "type": "ephemeral"
+      },
+      "include": [
+        "reasoning.encrypted_content"
+      ],
+      "input": [
+        {
+          "content": [
+            {
+              "text": "look",
+              "type": "input_text"
+            }
+          ],
+          "role": "user",
+          "type": "message"
+        },
+        {
+          "encrypted_content": "sealed",
+          "id": "rs_1",
+          "summary": [],
+          "type": "reasoning"
+        },
+        {
+          "arguments": "{\"command\":\"echo hi\"}",
+          "call_id": "call_1",
+          "id": "fc_1",
+          "name": "bash",
+          "type": "function_call"
+        },
+        {
+          "arguments": "{\"command\":\"agt view shot.png\"}",
+          "call_id": "call_2",
+          "id": "fc_2",
+          "name": "bash",
+          "type": "function_call"
+        },
+        {
+          "call_id": "call_1",
+          "output": "[id 1 · exit 0 · $TIME]\nhi",
+          "type": "function_call_output"
+        },
+        {
+          "call_id": "call_2",
+          "output": "[id 2 · exit 0 · $TIME]\n[image $HOME/shot.png · 4x2]",
+          "type": "function_call_output"
+        },
+        {
+          "content": [
+            {
+              "text": "Images from the tool results above, in order:",
+              "type": "input_text"
+            },
+            {
+              "detail": "high",
+              "image_url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAIAAADwyuo0AAAAJUlEQVR4AQEaAOX/AMgoKMgoKMgoKMgoKADIKCjIKCjIKCjIKCh22gjBm0ZYxAAAAABJRU5ErkJggg==",
+              "type": "input_image"
+            }
+          ],
+          "role": "user",
+          "type": "message"
+        }
+      ],
+      "instructions": "You are agt, a coding agent working in the user's terminal. Your one tool, bash, is a real terminal on the user's machine: you read and edit files, build, test and run programs, use git, look at images and call MCP servers by running commands.\n\n# How you work\n- Carry the task through. Investigate, make the change, and verify it by running it: the tests, the build, the program itself. Then fix what broke. Stop only when it is done or when something needs a decision only the user can make, and then ask exactly that.\n- Read the code before changing it, follow its conventions, and keep the change to what the task needs.\n- Write a new file with a quoted heredoc (cat > file <<'EOF'). Make a targeted edit with a short python3 or perl script, or sed for a single line, and check it with git diff.\n- Calls in one response run at the same time, so put independent commands in parallel calls.\n- Give a command a wait long enough to finish. A command that outlives its wait keeps running and you are told when it exits; if you need its result before you reply, wait for it with {\"wait\": N}.\n- This is the user's real machine and real repositories. Take steps outside the task that are hard to undo, such as pushing, publishing, deleting data you did not create or rewriting shared history, only when the user asked for them.\n- The user watches your commands as they run, so do not narrate them. When you finish, reply in a few sentences: what changed, how you verified it, and anything left. Use Markdown where it helps, and refer to code as path:line.\n- The user can message you while you work; take a message that arrives mid-task into account at once. What happens in the background reaches you in <background> blocks, each line stamped with the time it happened.\n\n# The agt command\nagt is on PATH in your commands, and agt <command> --help explains each one.\n- agt view <image>... shows you images; the bash tool's description says how.\n- agt mcp tools <server> and agt mcp call <server> <tool> '<json>' use MCP servers.\n- agt -p '<prompt>' runs a prompt in a new agt session until its agent is done. It prints the session id, each command that agent runs with how it ended and its log file, and last the reply. Run it as a background command to work in parallel, read its output as it goes, and steer it with agt send <session> '<message>'. -m <model>, --provider <provider> and -e <effort> choose its model; agt models lists them. agt -p -r <session> '<prompt>' continues a session.\n- agt sessions lists sessions. agt sessions show <session> prints one, and with -f follows a running session until its agent is done.\n- agt mcp add, agt mcp remove, agt login and agt models use change the user's setup when they ask.\n\n# Long tasks\nA session can run for days. As the context fills, earlier conversation is compacted: you keep your recent work and a condensed record of the rest, and the full transcript stays in log.jsonl in the session directory, where you can search it. On any task longer than a few steps, keep notes.md in the session directory current with the goal, the plan, decisions made and where you are. It is carried through every compaction.\n\n# Skills\nSkills are folders of instructions, scripts and resources for particular tasks. When a task matches a skill's description, read its SKILL.md with cat before you start, and resolve relative paths in it against the skill's folder.\n\n<available_skills>\n<skill>\n<name>release</name>\n<description>Cut a release.</description>\n<location>$HOME/.agents/skills/release/SKILL.md</location>\n</skill>\n</available_skills>\n\n# AGENTS.md\nProject instructions from AGENTS.md files, most general first. Each applies to the directory tree under its folder; more specific files take precedence, and the user's messages override them all.\n\n<agents_md path=\"$HOME/AGENTS.md\">\nRun the tests before finishing.\n</agents_md>\n\n# Environment\n- Working directory: $HOME\n- Platform: $PLATFORM\n- Session started: $DATE; agt reports times in UTC\n- Session directory: $HOME/.agt/sessions/$SESSION, also $AGT_SESSION_DIR\n  - log.jsonl: the full transcript, one JSON record per line\n  - procs/<id>.log: the complete output of process <id>, as plain text\n  - notes.md: yours to keep",
+      "model": "test-model",
+      "reasoning": {
+        "summary": "auto"
+      },
+      "store": false,
+      "stream": true,
+      "tools": [
+        {
+          "description": "Run commands in a real terminal. Each command starts a process with its own id and pseudo-terminal, in the working directory. Call the tool in one of five forms:\n\n- {\"command\": \"cargo test\", \"wait\": 300}: start a command. It returns when the command exits or after wait seconds (default 30, at most 3600). A command still running then keeps running in the background, and you are told when it exits, with its new output.\n- {\"id\": 3}: return process 3's new output, waiting up to wait seconds for some.\n- {\"id\": 3, \"input\": \"yes\"}: type into process 3, such as a prompt, REPL, ssh session or full-screen program, and return its output once it settles. Text is followed by Enter; input containing control characters, such as \\u0003 (Ctrl-C) or \\u001b[A (Up), is sent exactly.\n- {\"id\": 3, \"kill\": true}: stop process 3 and its children.\n- {\"wait\": 600}: wait until a background process exits or a message arrives, up to wait seconds, and return what happened.\n\nEach command runs in a fresh shell, so cd and exported variables do not carry over; start bash and type into it when you need a shell that keeps its state. Do not background commands with &, nohup or setsid: a command that outlives its wait is already in the background.\n\nA result starts with a header such as [id 3 · exit 0 · $TIME] or [id 3 · running · $TIME · you will be told when it exits], then the output that is new since you last saw it, as a terminal shows it. Output over 12 KB keeps its first 4 KB and last 8 KB. Every process's complete output is a plain text file, $AGT_SESSION_DIR/procs/<id>.log, which you can grep and read in ranges. A full-screen program returns its current screen.\n\nTo see an image yourself, such as a screenshot of an interface you are building, a rendered page, a chart or a photo, run agt view <file>... in a command, on its own or after the commands that make the image. Each image is attached to the result after a header that names it, such as [image /work/shot.png · 2880x1800 · shown at 1980x1238, scale 1.45]. PNG, JPEG, WebP and GIF files are supported; convert others first, such as PDF pages with pdftoppm. An image larger than 2000 px or about 2.5 megapixels is scaled down; to read fine detail, view part of it at full resolution with agt view --region left,top,right,bottom <file>, in pixels of the original. A point in a scaled view maps to the original as the region's left and top plus the point times the scale.",
+          "name": "bash",
+          "parameters": {
+            "properties": {
+              "command": {
+                "description": "A shell command to start as a new process in the working directory.",
+                "type": "string"
+              },
+              "id": {
+                "description": "The id of a process, from a result header, to read, type into or stop.",
+                "type": "integer"
+              },
+              "input": {
+                "description": "Text to type into process id, followed by Enter. Text with control characters is sent exactly.",
+                "type": "string"
+              },
+              "kill": {
+                "description": "true stops process id and its children.",
+                "type": "boolean"
+              },
+              "wait": {
+                "description": "Seconds to wait at most (default 30, at most 3600). Given alone, waits for a background process to exit or a message to arrive.",
+                "type": "number"
+              }
+            },
+            "type": "object"
+          },
+          "strict": false,
+          "type": "function"
+        }
+      ]
+    },
+    "headers": {
+      "accept": "text/event-stream",
+      "authorization": "Bearer test-key",
+      "content-type": "application/json",
+      "user-agent": "agt/0.1.0",
+      "x-session-id": "$SESSION"
+    },
+    "request": "POST /v1/responses"
+  },
+  {
+    "body": {
+      "cache_control": {
+        "ttl": "1h",
+        "type": "ephemeral"
+      },
+      "include": [
+        "reasoning.encrypted_content"
+      ],
+      "input": [
+        {
+          "content": [
+            {
+              "text": "look",
+              "type": "input_text"
+            }
+          ],
+          "role": "user",
+          "type": "message"
+        },
+        {
+          "encrypted_content": "sealed",
+          "id": "rs_1",
+          "summary": [],
+          "type": "reasoning"
+        },
+        {
+          "arguments": "{\"command\":\"echo hi\"}",
+          "call_id": "call_1",
+          "id": "fc_1",
+          "name": "bash",
+          "type": "function_call"
+        },
+        {
+          "arguments": "{\"command\":\"agt view shot.png\"}",
+          "call_id": "call_2",
+          "id": "fc_2",
+          "name": "bash",
+          "type": "function_call"
+        },
+        {
+          "call_id": "call_1",
+          "output": "[id 1 · exit 0 · $TIME]\nhi",
+          "type": "function_call_output"
+        },
+        {
+          "call_id": "call_2",
+          "output": "[id 2 · exit 0 · $TIME]\n[image $HOME/shot.png · 4x2]",
+          "type": "function_call_output"
+        },
+        {
+          "content": [
+            {
+              "text": "Images from the tool results above, in order:",
+              "type": "input_text"
+            },
+            {
+              "detail": "high",
+              "image_url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAIAAADwyuo0AAAAJUlEQVR4AQEaAOX/AMgoKMgoKMgoKMgoKADIKCjIKCjIKCjIKCh22gjBm0ZYxAAAAABJRU5ErkJggg==",
+              "type": "input_image"
+            }
+          ],
+          "role": "user",
+          "type": "message"
+        },
+        {
+          "content": [
+            {
+              "text": "done",
+              "type": "output_text"
+            }
+          ],
+          "role": "assistant",
+          "type": "message"
+        },
+        {
+          "content": [
+            {
+              "text": "again",
+              "type": "input_text"
+            }
+          ],
+          "role": "user",
+          "type": "message"
+        }
+      ],
+      "instructions": "You are agt, a coding agent working in the user's terminal. Your one tool, bash, is a real terminal on the user's machine: you read and edit files, build, test and run programs, use git, look at images and call MCP servers by running commands.\n\n# How you work\n- Carry the task through. Investigate, make the change, and verify it by running it: the tests, the build, the program itself. Then fix what broke. Stop only when it is done or when something needs a decision only the user can make, and then ask exactly that.\n- Read the code before changing it, follow its conventions, and keep the change to what the task needs.\n- Write a new file with a quoted heredoc (cat > file <<'EOF'). Make a targeted edit with a short python3 or perl script, or sed for a single line, and check it with git diff.\n- Calls in one response run at the same time, so put independent commands in parallel calls.\n- Give a command a wait long enough to finish. A command that outlives its wait keeps running and you are told when it exits; if you need its result before you reply, wait for it with {\"wait\": N}.\n- This is the user's real machine and real repositories. Take steps outside the task that are hard to undo, such as pushing, publishing, deleting data you did not create or rewriting shared history, only when the user asked for them.\n- The user watches your commands as they run, so do not narrate them. When you finish, reply in a few sentences: what changed, how you verified it, and anything left. Use Markdown where it helps, and refer to code as path:line.\n- The user can message you while you work; take a message that arrives mid-task into account at once. What happens in the background reaches you in <background> blocks, each line stamped with the time it happened.\n\n# The agt command\nagt is on PATH in your commands, and agt <command> --help explains each one.\n- agt view <image>... shows you images; the bash tool's description says how.\n- agt mcp tools <server> and agt mcp call <server> <tool> '<json>' use MCP servers.\n- agt -p '<prompt>' runs a prompt in a new agt session until its agent is done. It prints the session id, each command that agent runs with how it ended and its log file, and last the reply. Run it as a background command to work in parallel, read its output as it goes, and steer it with agt send <session> '<message>'. -m <model>, --provider <provider> and -e <effort> choose its model; agt models lists them. agt -p -r <session> '<prompt>' continues a session.\n- agt sessions lists sessions. agt sessions show <session> prints one, and with -f follows a running session until its agent is done.\n- agt mcp add, agt mcp remove, agt login and agt models use change the user's setup when they ask.\n\n# Long tasks\nA session can run for days. As the context fills, earlier conversation is compacted: you keep your recent work and a condensed record of the rest, and the full transcript stays in log.jsonl in the session directory, where you can search it. On any task longer than a few steps, keep notes.md in the session directory current with the goal, the plan, decisions made and where you are. It is carried through every compaction.\n\n# Skills\nSkills are folders of instructions, scripts and resources for particular tasks. When a task matches a skill's description, read its SKILL.md with cat before you start, and resolve relative paths in it against the skill's folder.\n\n<available_skills>\n<skill>\n<name>release</name>\n<description>Cut a release.</description>\n<location>$HOME/.agents/skills/release/SKILL.md</location>\n</skill>\n</available_skills>\n\n# AGENTS.md\nProject instructions from AGENTS.md files, most general first. Each applies to the directory tree under its folder; more specific files take precedence, and the user's messages override them all.\n\n<agents_md path=\"$HOME/AGENTS.md\">\nRun the tests before finishing.\n</agents_md>\n\n# Environment\n- Working directory: $HOME\n- Platform: $PLATFORM\n- Session started: $DATE; agt reports times in UTC\n- Session directory: $HOME/.agt/sessions/$SESSION, also $AGT_SESSION_DIR\n  - log.jsonl: the full transcript, one JSON record per line\n  - procs/<id>.log: the complete output of process <id>, as plain text\n  - notes.md: yours to keep",
+      "model": "test-model",
+      "reasoning": {
+        "summary": "auto"
+      },
+      "store": false,
+      "stream": true,
+      "tools": [
+        {
+          "description": "Run commands in a real terminal. Each command starts a process with its own id and pseudo-terminal, in the working directory. Call the tool in one of five forms:\n\n- {\"command\": \"cargo test\", \"wait\": 300}: start a command. It returns when the command exits or after wait seconds (default 30, at most 3600). A command still running then keeps running in the background, and you are told when it exits, with its new output.\n- {\"id\": 3}: return process 3's new output, waiting up to wait seconds for some.\n- {\"id\": 3, \"input\": \"yes\"}: type into process 3, such as a prompt, REPL, ssh session or full-screen program, and return its output once it settles. Text is followed by Enter; input containing control characters, such as \\u0003 (Ctrl-C) or \\u001b[A (Up), is sent exactly.\n- {\"id\": 3, \"kill\": true}: stop process 3 and its children.\n- {\"wait\": 600}: wait until a background process exits or a message arrives, up to wait seconds, and return what happened.\n\nEach command runs in a fresh shell, so cd and exported variables do not carry over; start bash and type into it when you need a shell that keeps its state. Do not background commands with &, nohup or setsid: a command that outlives its wait is already in the background.\n\nA result starts with a header such as [id 3 · exit 0 · $TIME] or [id 3 · running · $TIME · you will be told when it exits], then the output that is new since you last saw it, as a terminal shows it. Output over 12 KB keeps its first 4 KB and last 8 KB. Every process's complete output is a plain text file, $AGT_SESSION_DIR/procs/<id>.log, which you can grep and read in ranges. A full-screen program returns its current screen.\n\nTo see an image yourself, such as a screenshot of an interface you are building, a rendered page, a chart or a photo, run agt view <file>... in a command, on its own or after the commands that make the image. Each image is attached to the result after a header that names it, such as [image /work/shot.png · 2880x1800 · shown at 1980x1238, scale 1.45]. PNG, JPEG, WebP and GIF files are supported; convert others first, such as PDF pages with pdftoppm. An image larger than 2000 px or about 2.5 megapixels is scaled down; to read fine detail, view part of it at full resolution with agt view --region left,top,right,bottom <file>, in pixels of the original. A point in a scaled view maps to the original as the region's left and top plus the point times the scale.",
+          "name": "bash",
+          "parameters": {
+            "properties": {
+              "command": {
+                "description": "A shell command to start as a new process in the working directory.",
+                "type": "string"
+              },
+              "id": {
+                "description": "The id of a process, from a result header, to read, type into or stop.",
+                "type": "integer"
+              },
+              "input": {
+                "description": "Text to type into process id, followed by Enter. Text with control characters is sent exactly.",
+                "type": "string"
+              },
+              "kill": {
+                "description": "true stops process id and its children.",
+                "type": "boolean"
+              },
+              "wait": {
+                "description": "Seconds to wait at most (default 30, at most 3600). Given alone, waits for a background process to exit or a message to arrive.",
+                "type": "number"
+              }
+            },
+            "type": "object"
+          },
+          "strict": false,
+          "type": "function"
+        }
+      ]
+    },
+    "headers": {
+      "accept": "text/event-stream",
+      "authorization": "Bearer test-key",
+      "content-type": "application/json",
+      "user-agent": "agt/0.1.0",
+      "x-session-id": "$SESSION"
+    },
+    "request": "POST /v1/responses"
+  }
+]

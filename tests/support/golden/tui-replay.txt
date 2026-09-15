@@ -1,0 +1,17 @@
+   \e[0;2m· earlier conversation was compacted\e[0m
+
+ \e[0;1;36m❯\e[0m \e[0;1mfix the header\e[0m
+   \e[0;36m[image 4×2]\e[0m
+
+   \e[0;2m▾\e[0m \e[0;2mWorked · 3 commands · 1 image · \e[0;31m1 failed\e[0m
+   \e[0;2m│\e[0m \e[0;2m▸\e[0m \e[0;2;3mThought\e[0m
+   \e[0;2m│\e[0m \e[0;32m✓\e[0m npm run dev\e[0;2m  \e[0;33mrunning · id 1\e[0;2m · 1 line · 1.0s\e[0m
+   \e[0;2m│\e[0m \e[0;32m✓\e[0m agt view --region 0,0,2,1 shot.png
+   \e[0;2m│\e[0m   \e[0;36m[image shot.png · 4×2 · region 0,0,2,1]\e[0m
+   \e[0;2m│\e[0m \e[0;31m✗\e[0m cargo test\e[0;2m  \e[0;31mexit 101\e[0;2m · 4.2s\e[0m
+   \e[0;2m│\e[0m   \e[0;2merror: 1 test failed\e[0m
+   \e[0;2m│\e[0m \e[0;2m· process 1 (npm run dev) finished with exit 0\e[0m
+
+   Done.
+
+ \e[0;1;36m❯\e[0m \e[0;2m[agt send] \e[0;1malso run lint\e[0m

@@ -1,0 +1,13 @@
+agt: session $SESSION · test-model · OpenRouter
+$ for n in 1 2 3 4 5 6; do echo line $n; done; exit 2
+  exit 2 · $TIME · $HOME/.agt/sessions/$SESSION/procs/1.log
+    line 2
+    line 3
+    line 4
+    line 5
+    line 6
+$ echo fine
+  exit 0 · $TIME · $HOME/.agt/sessions/$SESSION/procs/2.log
+
+
+agt: done in $TIME · 2 commands, 1 failed · session $SESSION

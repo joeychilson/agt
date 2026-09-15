@@ -1,0 +1,30 @@
+ \e[0;1;36magt\e[0m \e[0;2m0.1.0\e[0m  \e[0;2m~\e[0m                                                  test-model \e[0;2m·\e[0m \e[0;2mOpenRouter\e[0m \e[0;2m·\e[0m \e[0;2m110\e[0m \e[0;2m/\e[0m \e[0;2m200k
+
+ \e[0;1;36m❯\e[0m \e[0;1mcheck\e[0m \e[0;1mthe\e[0m \e[0;1mheader
+
+   \e[0;2m▸\e[0m \e[0;2mWorked\e[0m \e[0;2m·\e[0m \e[0;2m3\e[0m \e[0;2mcommands\e[0m \e[0;2m·\e[0m \e[0;2m1\e[0m \e[0;2mimage\e[0m \e[0;2m·\e[0m \e[0;31m1\e[0m \e[0;31mfailed
+
+   \e[0;1mResult
+
+   The \e[0;1mheader\e[0m uses \e[0;36mflex\e[0m:
+   \e[0;2m•\e[0m one
+   \e[0;2m•\e[0m two
+
+   \e[0;2m─\e[0m \e[0;2msh\e[0m \e[0;2m───────────────────────────────────────────────────────
+   \e[0;36mcargo\e[0m \e[0;36mtest
+   \e[0;2m────────────────────────────────────────────────────────────
+   \e[0;2m│\e[0m \e[0;2mdone
+
+
+
+
+
+
+
+
+
+
+\e[0;36m╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+\e[0;36m│\e[0m \e[0;1;36m❯\e[0m \e[0;2mAsk\e[0m \e[0;2manything\e[0m                                                                                   \e[0;36m│
+\e[0;36m╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+   \e[0;2m/\e[0m \e[0;2mcommands\e[0m \e[0;2m·\e[0m \e[0;2m@\e[0m \e[0;2mfiles\e[0m \e[0;2m·\e[0m \e[0;2mctrl-v\e[0m \e[0;2mimage\e[0m \e[0;2m·\e[0m \e[0;2mctrl-o\e[0m \e[0;2mbrowse\e[0m                                       \e[0;2m?\e[0m \e[0;2mkeys

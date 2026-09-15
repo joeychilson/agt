@@ -1,0 +1,29 @@
+
+
+
+
+
+
+                 \e[0;2mskills\e[0m  skill-01  \e[0;2mDoes\e[0m \e[0;2mtask\e[0m \e[0;2m1\e[0m \e[0;2mas\e[0m \e[0;2mthis\e[0m \e[0;2mproject\e[0m \e[0;2mdoes\e[0m \e[0;2mit.
+                         skill-02  \e[0;2mDoes\e[0m \e[0;2mtask\e[0m \e[0;2m2\e[0m \e[0;2mas\e[0m \e[0;2mthis\e[0m \e[0;2mproject\e[0m \e[0;2mdoes\e[0m \e[0;2mit.
+                         skill-03  \e[0;2mDoes\e[0m \e[0;2mtask\e[0m \e[0;2m3\e[0m \e[0;2mas\e[0m \e[0;2mthis\e[0m \e[0;2mproject\e[0m \e[0;2mdoes\e[0m \e[0;2mit.
+                         skill-04  \e[0;2mDoes\e[0m \e[0;2mtask\e[0m \e[0;2m4\e[0m \e[0;2mas\e[0m \e[0;2mthis\e[0m \e[0;2mproject\e[0m \e[0;2mdoes\e[0m \e[0;2mit.
+                         skill-05  \e[0;2mDoes\e[0m \e[0;2mtask\e[0m \e[0;2m5\e[0m \e[0;2mas\e[0m \e[0;2mthis\e[0m \e[0;2mproject\e[0m \e[0;2mdoes\e[0m \e[0;2mit.
+                         skill-06  \e[0;2mDoes\e[0m \e[0;2mtask\e[0m \e[0;2m6\e[0m \e[0;2mas\e[0m \e[0;2mthis\e[0m \e[0;2mproject\e[0m \e[0;2mdoes\e[0m \e[0;2mit.
+                         skill-07  \e[0;2mDoes\e[0m \e[0;2mtask\e[0m \e[0;2m7\e[0m \e[0;2mas\e[0m \e[0;2mthis\e[0m \e[0;2mproject\e[0m \e[0;2mdoes\e[0m \e[0;2mit.
+                         \e[0;2m+3\e[0m \e[0;2mmore\e[0m \e[0;2m·\e[0m \e[0;2mtype\e[0m \e[0;2m/\e[0m \e[0;2mto\e[0m \e[0;2msee\e[0m \e[0;2mthem
+
+                 \e[0;2mmcp\e[0m     docs      \e[0;2mhttps://docs.example/mcp
+                         fake      \e[0;2mTools\e[0m \e[0;2mfor\e[0m \e[0;2mtesting\e[0m \e[0;2magt.
+
+                 \e[0;2menter\e[0m \e[0;2msend\e[0m \e[0;2m·\e[0m \e[0;2mshift-enter\e[0m \e[0;2mnew\e[0m \e[0;2mline\e[0m \e[0;2m·\e[0m \e[0;2m/\e[0m \e[0;2mcommands\e[0m \e[0;2m·\e[0m \e[0;2m@\e[0m \e[0;2mfiles\e[0m \e[0;2m·\e[0m \e[0;2m?\e[0m \e[0;2mkeys
+
+
+
+
+
+
+\e[0;36m╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+\e[0;36m│\e[0m \e[0;1;36m❯\e[0m \e[0;2mAsk\e[0m \e[0;2manything\e[0m                                                                                   \e[0;36m│
+\e[0;36m╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+   \e[0;2m/\e[0m \e[0;2mcommands\e[0m \e[0;2m·\e[0m \e[0;2m@\e[0m \e[0;2mfiles\e[0m \e[0;2m·\e[0m \e[0;2mctrl-v\e[0m \e[0;2mimage\e[0m \e[0;2m·\e[0m \e[0;2mctrl-o\e[0m \e[0;2mbrowse\e[0m                                       \e[0;2m?\e[0m \e[0;2mkeys

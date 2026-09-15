@@ -1,0 +1,9 @@
+session $SESSION · $HOME · $HOME/.agt/sessions/$SESSION/log.jsonl
+
+❯ run it
+
+$ echo from-tool; exit 3
+  exit 3 · $TIME · $HOME/.agt/sessions/$SESSION/procs/1.log
+    from-tool
+
+it failed
